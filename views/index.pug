@@ -1,4 +1,24 @@
-extend ./layouts/main
+extend layouts/main
 
 block view
-  
+  div(class='container')
+    form(class="form-inline")
+      div(class="form-group mb-2 mr-2")
+        label(for="new" class="sr-only") Add new todo
+        input(type="text" class="form-control" id="new"  placeholder="Add new todo")
+      button(type="button" class="btn btn-primary mb-2" id="new-button") Add
+    ul(class="list-group")
+      li(class="list-group-item")
+          div(class="row")
+            div(class="col-auto mr-auto")
+              input( style="vertical-align: middle;" type="checkbox", name="done" )
+              h4(style="display: inline;vertical-align: middle;") Name
+            div(class="col-auto") 
+              button(type="button" class="btn btn-secondary detail-button") detail  
+              button(type="button" class="btn btn-success edit-button") edit
+              button(type="button" class="btn btn-danger delete-button") delete   
+
+block scripts
+  script(src="/js/index.js")
+
+

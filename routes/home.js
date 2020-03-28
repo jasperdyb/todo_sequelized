@@ -11,8 +11,8 @@ const { authenticated } = require('../config/auth')
 
 // 設定首頁路由
 // 列出全部 Todo
-router.get('/', authenticated, (req, res) => {
-  res.send('列出全部 Todo')
+router.get('/', (req, res) => {
+  res.render('index')
 })
 
 module.exports = router

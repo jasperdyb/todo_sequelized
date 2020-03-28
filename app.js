@@ -11,6 +11,12 @@ const methodOverride = require('method-override')
 const db = require('./models')
 const port = 3000
 
+
+app.use(express.static('public'))
+app.set('view engine', 'pug')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
+
 app.use(session({
   secret: 'your secret key',
   resave: 'false',
@@ -25,10 +31,8 @@ app.use((req, res, next) => {
   next()
 })
 
-app.set('view engine', 'pug')
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
+// 載入 auth middleware
+const { authenticated } = require('./config/auth')
 
 // 設定路由
 app.use('/', require('./routes/home'))
