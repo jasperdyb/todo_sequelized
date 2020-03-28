@@ -10,9 +10,8 @@ const User = db.User
 const { authenticated } = require('../config/auth')
 
 // 設定首頁路由
-// 列出全部 Todo
 router.get('/', authenticated, (req, res) => {
-  res.render('index')
+  res.redirect('/todos')
 })
 
 module.exports = router

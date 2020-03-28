@@ -1,6 +1,5 @@
 
 $('#new-button').click(function () {
-  console.log('new clicked')
 
   let name = $('input[name=new]').val()
 
@@ -13,24 +12,26 @@ $('#new-button').click(function () {
     name: name
   };
 
-  console.log(todo)
-
   $.ajax({
     data: todo,
-
     url: '/todos/',
-
     type: 'post',
-
+    dataType: 'json',
     cache: false,
-    success: function (data) {
-      console.log(data.message)
+    success: function (newTodo) {
+
+      $.get("templates/todo.html", function (template) {
+        let todoLi = $(template);
+        let todoName = todoLi.find('h4.todo-name')
+
+        todoName.text(newTodo.name)
+
+        todoLi.appendTo('ul#todoList');
+        $('#new-input').val('')
+      })
     },
-
     error: function (jqXHR, textStatus, errorThrown) {
-
       alert('error' + textStatus + 'errorThrown');
-
     }
   })
 

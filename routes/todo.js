@@ -13,7 +13,18 @@ const { authenticated } = require('../config/auth')
 // 列出全部 Todo
 router.get('/', (req, res) => {
   console.log('列出全部 Todo')
-  // res.send('列出全部 Todo')
+  User.findByPk(req.user.id)
+    .then((user) => {
+      if (!user) throw new Error("user not found")
+
+      return Todo.findAll({
+        raw: true,
+        nest: true,
+        where: { UserId: req.user.id }
+      })
+    })
+    .then((todos) => { return res.render('index', { todos: todos }) })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 // 顯示一筆 Todo 的詳細內容
@@ -32,7 +43,7 @@ router.post('/', (req, res) => {
     done: false,
     UserId: req.user.id
   })
-    .then((todo) => { return res.send({ message: "新增成功!" }) })
+    .then((todo) => { return res.send(todo) })
     .catch((error) => { return res.status(422).json(error) })
 })
 
