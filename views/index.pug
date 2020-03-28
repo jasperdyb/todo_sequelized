@@ -1,7 +1,7 @@
 extend layouts/main
 
 block view
-  div(class='container')
+  div(class='container w-50')
     form(class="form-inline")
       div(class="form-group mb-2 mr-2")
         label(for="new" class="sr-only") Add new todo
@@ -12,7 +12,7 @@ block view
         li(class="list-group-item" data-id = todo.id)
             div(class="row")
               div(class="col-auto mr-auto")
-                input( style="vertical-align: middle;" type="checkbox", name="done" )
+                input( style="vertical-align: middle;" type="checkbox" name="done" )
                 h4(style="display: inline;vertical-align: middle;"  class="ml-1 todo-name") #{todo.name}
               div(class="col-auto btn-group" role="group") 
                 button(type="button" class="btn btn-secondary detail-button") detail  

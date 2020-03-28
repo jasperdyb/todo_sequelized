@@ -76,14 +76,22 @@ $('.edit-button').click(function () {
 })
 
 $('.delete-button').click(function () {
+
+  let todoId = $($(this).parents('li')[0]).data('id')
+
   console.log('delete clicked')
   $.ajax({
-
-    url: '/todos/2/delete',
-
+    url: `/todos/${todoId}/delete`,
     type: 'delete',
-
     cache: false,
+    success: function (check) {
+      if (check.success) {
+        $($(`li[data-id=${todoId}]`)[0]).remove()
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('error' + textStatus + 'errorThrown');
+    }
   })
 
 })
