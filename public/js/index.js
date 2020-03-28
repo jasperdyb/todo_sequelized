@@ -26,6 +26,7 @@ $('#new-button').click(function () {
 
         todoName.text(newTodo.name)
 
+        todoLi.attr("data-id", newTodo.id)
         todoLi.appendTo('ul#todoList');
         $('#new-input').val('')
       })
@@ -39,13 +40,24 @@ $('#new-button').click(function () {
 
 $('.detail-button').click(function () {
   console.log('detail clicked')
+
+  let todoId = $($(this).parents('li')[0]).data('id')
+
   $.ajax({
-
-    url: '/todos/2',
-
+    url: `/todos/${todoId}`,
     type: 'get',
-
     cache: false,
+    success: function (todo) {
+      let modalDetail = $('#modalDetail')
+      let todoDetail = modalDetail.find('#todoDetail')
+      let todoCreateDate = modalDetail.find('#todoCreateDate')
+      todoDetail.text(todo.name)
+      todoCreateDate.text(`Added at ${todo.createdAt}`)
+      $('#modalDetail').modal('show')
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('error' + textStatus + 'errorThrown');
+    }
   })
 
 })
