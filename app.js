@@ -25,8 +25,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+app.set('view engine', 'pug')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
