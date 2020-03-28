@@ -37,7 +37,7 @@ const { authenticated } = require('./config/auth')
 // 設定路由
 app.use('/', require('./routes/home'))
 app.use('/users', require('./routes/user'))
-app.use('/todos', require('./routes/todo'))
+app.use('/todos', authenticated, require('./routes/todo'))
 
 // 設定 express port 3000
 app.listen(port, () => {

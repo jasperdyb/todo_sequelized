@@ -16,11 +16,6 @@ router.get('/', (req, res) => {
   // res.send('列出全部 Todo')
 })
 
-// 新增一筆 Todo 頁面 (取消)
-router.get('/new', (req, res) => {
-  res.send('新增一筆 Todo')
-})
-
 // 顯示一筆 Todo 的詳細內容
 router.get('/:id', (req, res) => {
   console.log('顯示一筆 Todo')
@@ -29,8 +24,16 @@ router.get('/:id', (req, res) => {
 
 // 新增一筆  Todo
 router.post('/', (req, res) => {
-  console.log('新增一筆 Todo')
-  // res.send('新增一筆 Todo')
+  console.log(req.body)
+  console.log(`新增一筆 Todo , user_id = ${req.user.id}`)
+
+  Todo.create({
+    name: req.body.name,
+    done: false,
+    UserId: req.user.id
+  })
+    .then((todo) => { return res.send({ message: "新增成功!" }) })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 // 修改 Todo 頁面 (取消)
