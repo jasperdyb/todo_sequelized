@@ -1,0 +1,17 @@
+ul li .todo-edit {
+  display:none;
+}
+
+ul li .todo-name {
+  display: inline;
+  vertical-align: middle
+}
+
+ul li.editMode .todo-edit {
+  display:inline;
+  vertical-align: middle
+}
+
+ul li.editMode .todo-name {
+  display:none;
+}

@@ -23,8 +23,10 @@ $('#new-button').click(function () {
       $.get("templates/todo.html", function (template) {
         let todoLi = $(template);
         let todoName = todoLi.find('h4.todo-name')
+        let todoEdit = todoLi.find('input.todo-edit')
 
         todoName.text(newTodo.name)
+        todoEdit.val(newTodo.name)
 
         todoLi.attr("data-id", newTodo.id)
         todoLi.appendTo('ul#todoList');
@@ -38,7 +40,13 @@ $('#new-button').click(function () {
 
 })
 
-$('.detail-button').click(function () {
+
+$('.done-button').click(function () {
+  console.log($($(this).parents('li')[0]))
+})
+
+
+$('#todoList').on('click', '.detail-button', function () {
   console.log('detail clicked')
 
   let todoId = $($(this).parents('li')[0]).data('id')
@@ -62,20 +70,43 @@ $('.detail-button').click(function () {
 
 })
 
-$('.edit-button').click(function () {
+
+
+$('#todoList').on('click', '.edit-button', function () {
   console.log('edit clicked')
-  $.ajax({
 
-    url: '/todos/2',
+  let todoLi = $($(this).parents('li')[0])
 
-    type: 'put',
-
-    cache: false,
-  })
+  todoLi.toggleClass("editMode")
 
 })
 
-$('.delete-button').click(function () {
+$('#todoList').on('change', '.todo-edit', function () {
+
+  let todoLi = $($(this).parents('li')[0])
+  let todoId = todoLi.data('id')
+  let todoName = todoLi.find('h4.todo-name')
+  let newName = $(this).val()
+
+  $.ajax({
+    data: { name: newName },
+    url: `/todos/${todoId}`,
+    type: 'put',
+    dataType: 'json',
+    cache: false,
+    success: function (check) {
+      if (check.success) {
+        todoName.text(newName)
+        todoLi.toggleClass("editMode")
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('error' + textStatus + 'errorThrown');
+    }
+  })
+})
+
+$('#todoList').on('click', '.delete-button', function () {
 
   let todoId = $($(this).parents('li')[0]).data('id')
 
@@ -95,3 +126,8 @@ $('.delete-button').click(function () {
   })
 
 })
+
+
+
+
+

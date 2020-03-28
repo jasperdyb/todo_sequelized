@@ -1,5 +1,8 @@
 extend layouts/main
 
+block styles
+  link(rel="stylesheet", href="/style/index.css")
+
 block view
   div(class='container w-50')
     ul(class="nav nav-tabs" id="myTab" role="tablist")
@@ -20,8 +23,9 @@ block view
             li(class="list-group-item" data-id = todo.id)
                 div(class="row")
                   div(class="col-auto mr-auto")
-                    input( style="vertical-align: middle;" type="checkbox" name="done" )
-                    h4(style="display: inline;vertical-align: middle;"  class="ml-1 todo-name") #{todo.name}
+                    button(type="button" class="btn btn-info done-button") Done
+                    input(class="ml-2 todo-edit" value = todo.name class="ml-2")
+                    h4(class="ml-2 todo-name") #{todo.name}
                   div(class="col-auto btn-group" role="group") 
                     button(type="button" class="btn btn-secondary detail-button") detail  
                     button(type="button" class="btn btn-success edit-button") edit

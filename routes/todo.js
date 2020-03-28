@@ -60,14 +60,20 @@ router.post('/', (req, res) => {
     .catch((error) => { return res.status(422).json(error) })
 })
 
-// 修改 Todo 頁面 (取消)
-router.get('/:id/edit', (req, res) => {
-  res.send('修改 Todo 頁面')
-})
-
 // 修改 Todo
 router.put('/:id', (req, res) => {
-  console.log(`修改 ${req.params.id}`)
+  Todo.findOne({
+    where: {
+      Id: req.params.id,
+      UserId: req.user.id,
+    }
+  })
+    .then((todo) => {
+      todo.name = req.body.name
+      return todo.save()
+    })
+    .then((todo) => { return res.send({ success: true }) })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 // 刪除 Todo
