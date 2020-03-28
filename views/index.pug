@@ -2,22 +2,34 @@ extend layouts/main
 
 block view
   div(class='container w-50')
-    form(class="form-inline")
-      div(class="form-group mb-2 mr-2")
-        label(for="new" class="sr-only") Add new todo
-        input(type="text" class="form-control" name="new" id="new-input"  placeholder="Add new todo")
-      button(type="button" class="btn btn-primary mb-2" id="new-button") Add
-    ul(class="list-group" id="todoList")
-      each todo in todos
-        li(class="list-group-item" data-id = todo.id)
-            div(class="row")
-              div(class="col-auto mr-auto")
-                input( style="vertical-align: middle;" type="checkbox" name="done" )
-                h4(style="display: inline;vertical-align: middle;"  class="ml-1 todo-name") #{todo.name}
-              div(class="col-auto btn-group" role="group") 
-                button(type="button" class="btn btn-secondary detail-button") detail  
-                button(type="button" class="btn btn-success edit-button") edit
-                button(type="button" class="btn btn-danger delete-button") delete   
+    ul(class="nav nav-tabs" id="myTab" role="tablist")
+      li(class="nav-item")
+        a(class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true") Todo
+      li(class="nav-item")
+        a(class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false") Done
+
+    div(class="tab-content" id="myTabContent")
+      div(class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab")
+        form(class="form-inline mt-2")
+          div(class="form-group mb-2 mr-2")
+            label(for="new" class="sr-only") Add new todo
+            input(type="text" class="form-control" name="new" id="new-input"  placeholder="Add new todo")
+          button(type="button" class="btn btn-primary mb-2" id="new-button") Add
+        ul(class="list-group" id="todoList")
+          each todo in todos
+            li(class="list-group-item" data-id = todo.id)
+                div(class="row")
+                  div(class="col-auto mr-auto")
+                    input( style="vertical-align: middle;" type="checkbox" name="done" )
+                    h4(style="display: inline;vertical-align: middle;"  class="ml-1 todo-name") #{todo.name}
+                  div(class="col-auto btn-group" role="group") 
+                    button(type="button" class="btn btn-secondary detail-button") detail  
+                    button(type="button" class="btn btn-success edit-button") edit
+                    button(type="button" class="btn btn-danger delete-button") delete   
+      div(class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab")
+        h2 HOHO
+
+
 
   div(class="modal" tabindex="-1" role="dialog" id="modalDetail")          
     div(class="modal-dialog" role="document")
