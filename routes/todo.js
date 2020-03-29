@@ -6,9 +6,6 @@ const db = require('../models')
 const Todo = db.Todo
 const User = db.User
 
-// 載入 auth middleware
-const { authenticated } = require('../config/auth')
-
 // 設定 /todos 路由
 // 列出全部 Todo
 router.get('/', (req, res) => {

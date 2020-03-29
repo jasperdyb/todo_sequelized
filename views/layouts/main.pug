@@ -16,6 +16,9 @@ body
     nav(class="navbar navbar-expand-lg navbar-light bg-light")
       a(href="/" class="navbar-brand" )
         |Todo
+      div( class="collapse navbar-collapse")
+      if isAuthenticated
+        a(href="/users/logout" class="btn btn-secondary") Logout
 
   block view
 
