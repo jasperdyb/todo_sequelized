@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
     .catch((error) => { return res.status(422).json(error) })
 })
 
-// 修改 Todo
+// 修改 Todo 名稱
 router.put('/:id', (req, res) => {
   Todo.findOne({
     where: {
@@ -70,6 +70,38 @@ router.put('/:id', (req, res) => {
   })
     .then((todo) => {
       todo.name = req.body.name
+      return todo.save()
+    })
+    .then((todo) => { return res.send({ success: true }) })
+    .catch((error) => { return res.status(422).json(error) })
+})
+
+// 修改 Todo 為 Done
+router.put('/:id/done', (req, res) => {
+  Todo.findOne({
+    where: {
+      Id: req.params.id,
+      UserId: req.user.id,
+    }
+  })
+    .then((todo) => {
+      todo.done = true
+      return todo.save()
+    })
+    .then((todo) => { return res.send({ success: true }) })
+    .catch((error) => { return res.status(422).json(error) })
+})
+
+// 取消 Done 變回 Todo
+router.put('/:id/cancel-done', (req, res) => {
+  Todo.findOne({
+    where: {
+      Id: req.params.id,
+      UserId: req.user.id,
+    }
+  })
+    .then((todo) => {
+      todo.done = false
       return todo.save()
     })
     .then((todo) => { return res.send({ success: true }) })

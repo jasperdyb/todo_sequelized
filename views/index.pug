@@ -20,18 +20,30 @@ block view
           button(type="button" class="btn btn-primary mb-2" id="new-button") Add
         ul(class="list-group" id="todoList")
           each todo in todos
-            li(class="list-group-item" data-id = todo.id)
-                div(class="row")
-                  div(class="col-auto mr-auto")
-                    button(type="button" class="btn btn-info done-button") Done
-                    input(class="ml-2 todo-edit" value = todo.name class="ml-2")
-                    h4(class="ml-2 todo-name") #{todo.name}
-                  div(class="col-auto btn-group" role="group") 
-                    button(type="button" class="btn btn-secondary detail-button") detail  
-                    button(type="button" class="btn btn-success edit-button") edit
-                    button(type="button" class="btn btn-danger delete-button") delete   
+            if !todo.done
+              li(class="list-group-item" data-id = todo.id)
+                  div(class="row")
+                    div(class="col-auto mr-auto")
+                      button(type="button" class="btn btn-info done-button") Done
+                      input(class="ml-2 todo-edit" value = todo.name class="ml-2")
+                      h4(class="ml-2 todo-name") #{todo.name}
+                    div(class="col-auto btn-group" role="group") 
+                      button(type="button" class="btn btn-secondary detail-button") detail  
+                      button(type="button" class="btn btn-success edit-button") edit
+                      button(type="button" class="btn btn-danger delete-button") delete   
       div(class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab")
-        h2 HOHO
+        ul(class="list-group" id="doneList")
+          each todo in todos
+            if todo.done
+              li(class="list-group-item" data-id = todo.id)
+                  div(class="row")
+                    div(class="col-auto mr-auto")
+                      button(type="button" class="btn btn-info todo-button") Todo
+                      input(class="ml-2 todo-edit" value = todo.name class="ml-2")
+                      h4(class="ml-2 todo-name") #{todo.name}
+                    div(class="col-auto btn-group" role="group") 
+                      button(type="button" class="btn btn-secondary detail-button") detail  
+                      button(type="button" class="btn btn-danger delete-button") delete
 
 
 

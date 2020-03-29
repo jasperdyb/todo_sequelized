@@ -1,5 +1,4 @@
-
-$('#new-button').click(function () {
+let newButton = function () {
 
   let name = $('input[name=new]').val()
 
@@ -29,7 +28,7 @@ $('#new-button').click(function () {
         todoEdit.val(newTodo.name)
 
         todoLi.attr("data-id", newTodo.id)
-        todoLi.appendTo('ul#todoList');
+        $('ul#todoList').prepend(todoLi);
         $('#new-input').val('')
       })
     },
@@ -38,15 +37,65 @@ $('#new-button').click(function () {
     }
   })
 
-})
+}
 
-
-$('.done-button').click(function () {
+let doneButton = function () {
   console.log($($(this).parents('li')[0]))
-})
+
+  let todoLi = $($(this).parents('li')[0])
+  let todoId = todoLi.data('id')
+
+  $.ajax({
+    url: `/todos/${todoId}/done`,
+    type: 'put',
+    cache: false,
+    success: function (check) {
+      if (check.success) {
+        todoLi.find('button.edit-button').remove()
+        todoLi.find('button.done-button').text("Todo")
+        todoLi.find('button.done-button').removeClass('done-button').addClass('todo-button')
+        $('#doneList').prepend(todoLi)
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('error' + textStatus + 'errorThrown');
+    }
+  })
 
 
-$('#todoList').on('click', '.detail-button', function () {
+}
+
+let todoButton = function () {
+  console.log($($(this).parents('li')[0]))
+
+  let todoLi = $($(this).parents('li')[0])
+  let todoId = todoLi.data('id')
+
+  $.ajax({
+    url: `/todos/${todoId}/cancel-done`,
+    type: 'put',
+    cache: false,
+    success: function (check) {
+      if (check.success) {
+        let editButton = $('<button class="btn btn-success edit-button" type="button">edit</button>')
+        let detailButton = $(todoLi.find('button.detail-button'))
+
+        editButton.insertAfter(detailButton)
+
+        todoLi.find('button.todo-button').text("Done")
+        todoLi.find('button.todo-button').removeClass('todo-button').addClass('done-button')
+        $('#todoList').prepend(todoLi)
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('error' + textStatus + 'errorThrown');
+    }
+  })
+
+
+}
+
+let detailButton = function () {
   console.log('detail clicked')
 
   let todoId = $($(this).parents('li')[0]).data('id')
@@ -68,20 +117,18 @@ $('#todoList').on('click', '.detail-button', function () {
     }
   })
 
-})
+}
 
-
-
-$('#todoList').on('click', '.edit-button', function () {
+let editButton = function () {
   console.log('edit clicked')
 
   let todoLi = $($(this).parents('li')[0])
 
   todoLi.toggleClass("editMode")
 
-})
+}
 
-$('#todoList').on('change', '.todo-edit', function () {
+let todoEdit = function () {
 
   let todoLi = $($(this).parents('li')[0])
   let todoId = todoLi.data('id')
@@ -104,9 +151,9 @@ $('#todoList').on('change', '.todo-edit', function () {
       alert('error' + textStatus + 'errorThrown');
     }
   })
-})
+}
 
-$('#todoList').on('click', '.delete-button', function () {
+let deleteButton = function () {
 
   let todoId = $($(this).parents('li')[0]).data('id')
 
@@ -125,9 +172,18 @@ $('#todoList').on('click', '.delete-button', function () {
     }
   })
 
-})
+}
 
+$('#new-button').click(newButton)
 
+//Todo list listeners
+$('#todoList').on('click', '.done-button', doneButton)
+$('#todoList').on('click', '.detail-button', detailButton)
+$('#todoList').on('click', '.edit-button', editButton)
+$('#todoList').on('change', '.todo-edit', todoEdit)
+$('#todoList').on('click', '.delete-button', deleteButton)
 
-
-
+//Done list listeners
+$('#doneList').on('click', '.todo-button', todoButton)
+$('#doneList').on('click', '.detail-button', detailButton)
+$('#doneList').on('click', '.delete-button', deleteButton)
